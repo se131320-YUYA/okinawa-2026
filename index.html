@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>沖縄の旅 2026 🌊</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --ocean-deep: #0077B6;
+            --ocean: #00B4D8;
+            --ocean-light: #90E0EF;
+            --ocean-pale: #CAF0F8;
+            --bg: #F0F9FF;
+            --sand: #FFE8A1;
+            --coral: #FF6B6B;
+            --green: #52B788;
+            --text: #1A3A4A;
+            --text-light: #5A7A8A;
+            --shadow: 0 4px 20px rgba(0,119,182,0.12);
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #005F8E 0%, var(--ocean) 60%, var(--ocean-light) 100%);
+            color: white;
+            padding: 48px 20px 70px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; left: 0; right: 0;
+            height: 44px;
+            background: var(--bg);
+            clip-path: ellipse(55% 100% at 50% 100%);
+        }
+        .header-emoji { font-size: 3.2rem; display: block; margin-bottom: 8px; }
+        .header h1 { font-size: 2rem; font-weight: 700; letter-spacing: 0.06em; }
+        .header-date { font-size: 0.95rem; opacity: 0.88; margin-top: 6px; }
+        .header-badges { margin-top: 12px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.35);
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-size: 0.82rem;
+        }
+
+        /* Weather */
+        .weather-card {
+            background: white;
+            border-radius: 18px;
+            padding: 16px 20px;
+            margin: -22px 16px 20px;
+            box-shadow: var(--shadow);
+            position: relative;
+            z-index: 10;
+        }
+        .weather-top { display: flex; align-items: center; gap: 14px; }
+        .weather-icon { font-size: 2.8rem; }
+        .weather-label { font-size: 0.72rem; color: var(--text-light); margin-bottom: 2px; }
+        .weather-temp { font-size: 1.6rem; font-weight: 700; color: var(--ocean-deep); }
+        .weather-desc { font-size: 0.82rem; color: var(--text-light); }
+        .weather-advice {
+            margin-top: 10px;
+            background: var(--ocean-pale);
+            border-radius: 8px;
+            padding: 7px 12px;
+            font-size: 0.82rem;
+            color: var(--ocean-deep);
+        }
+
+        /* Container */
+        .container { max-width: 600px; margin: 0 auto; padding: 0 16px 80px; }
+
+        .section { margin-bottom: 26px; }
+        .section-title {
+            font-size: 1rem; font-weight: 700;
+            color: var(--ocean-deep);
+            border-left: 4px solid var(--ocean);
+            padding-left: 10px;
+            margin-bottom: 12px;
+        }
+
+        /* Info Card */
+        .info-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        .info-row {
+            display: flex; gap: 12px;
+            padding: 11px 16px;
+            border-bottom: 1px solid var(--ocean-pale);
+            font-size: 0.88rem;
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-label { color: var(--text-light); min-width: 72px; flex-shrink: 0; }
+        .info-value { font-weight: 500; }
+
+        /* Tabs */
+        .tab-nav {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-bottom: 14px;
+            background: white;
+            border-radius: 16px;
+            padding: 6px;
+            box-shadow: var(--shadow);
+        }
+        .tab-btn {
+            border: none; background: transparent;
+            border-radius: 10px; padding: 10px 4px;
+            cursor: pointer; font-family: inherit;
+            font-size: 0.78rem; color: var(--text-light);
+            transition: all 0.2s; text-align: center; line-height: 1.3;
+        }
+        .tab-btn .dn { font-size: 1.15rem; font-weight: 700; display: block; }
+        .tab-btn.active {
+            background: var(--ocean); color: white; font-weight: 700;
+            box-shadow: 0 2px 8px rgba(0,180,216,0.4);
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Timeline */
+        .timeline { position: relative; padding-left: 26px; }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 9px; top: 6px; bottom: 6px; width: 2px;
+            background: linear-gradient(to bottom, var(--ocean), var(--ocean-light));
+            border-radius: 2px;
+        }
+        .tl-item { position: relative; margin-bottom: 14px; }
+        .tl-item::before {
+            content: '';
+            position: absolute;
+            left: -21px; top: 13px;
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: var(--ocean);
+            border: 2px solid white;
+            box-shadow: 0 0 0 2px var(--ocean);
+        }
+        .tl-card {
+            background: white; border-radius: 12px;
+            padding: 12px 14px;
+            box-shadow: 0 2px 10px rgba(0,119,182,0.08);
+        }
+        .tl-time { font-size: 0.73rem; color: var(--ocean); font-weight: 700; margin-bottom: 3px; }
+        .tl-title { font-size: 0.94rem; font-weight: 700; margin-bottom: 3px; }
+        .tl-desc { font-size: 0.8rem; color: var(--text-light); line-height: 1.5; }
+        .map-btn {
+            display: inline-flex; align-items: center; gap: 4px;
+            margin-top: 8px; padding: 4px 10px;
+            background: var(--ocean-pale); border-radius: 20px;
+            text-decoration: none; font-size: 0.73rem;
+            color: var(--ocean-deep); font-weight: 500;
+        }
+        .undecided {
+            display: inline-block; padding: 2px 8px;
+            border-radius: 20px; background: #FFF3CD;
+            color: #856404; font-size: 0.75rem;
+        }
+
+        /* Cost */
+        .cost-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); }
+        .cost-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--ocean-pale);
+            font-size: 0.88rem;
+        }
+        .cost-row:last-child { border-bottom: none; }
+        .cost-amt { font-weight: 700; color: var(--ocean-deep); }
+        .cost-total { background: var(--ocean-deep); color: white; font-weight: 700; }
+        .cost-total .cost-amt { color: white; font-size: 1.05rem; }
+        .cost-note { font-size: 0.78rem; color: var(--text-light); margin-top: 7px; padding: 0 2px; }
+
+        /* Checklist */
+        .cl-section { background: white; border-radius: 16px; padding: 16px; box-shadow: var(--shadow); }
+        .cl-group-title {
+            font-size: 0.78rem; font-weight: 700;
+            color: var(--ocean); letter-spacing: 0.04em;
+            margin: 14px 0 6px;
+        }
+        .cl-group-title:first-child { margin-top: 0; }
+        .cl-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 9px 0;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+        }
+        .cl-item:last-of-type { border-bottom: none; }
+        .cl-item input[type="checkbox"] {
+            width: 20px; height: 20px;
+            accent-color: var(--ocean);
+            cursor: pointer; flex-shrink: 0;
+        }
+        .cl-item label { font-size: 0.88rem; cursor: pointer; flex: 1; }
+        .cl-item.checked label { text-decoration: line-through; color: var(--text-light); }
+        .clear-btn {
+            width: 100%; margin-top: 12px; padding: 8px;
+            border: 1px solid var(--ocean-light); background: transparent;
+            border-radius: 8px; color: var(--text-light);
+            font-size: 0.8rem; cursor: pointer; font-family: inherit;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center; padding: 24px 16px;
+            font-size: 0.78rem; color: var(--text-light);
+            border-top: 1px solid var(--ocean-pale);
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <span class="header-emoji">🌊</span>
+    <h1>沖縄の旅 2026</h1>
+    <div class="header-date">2026年6月24日（水）〜 6月27日（土）　3泊4日</div>
+    <div class="header-badges">
+        <span class="badge">👥 15名</span>
+        <span class="badge">✈️ 飛行機</span>
+        <span class="badge">🚌 送迎バス</span>
+        <span class="badge">🚗 レンタカー</span>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- Weather -->
+    <div class="weather-card">
+        <div class="weather-top">
+            <div class="weather-icon" id="w-icon">⏳</div>
+            <div>
+                <div class="weather-label">📍 那覇市の現在の天気</div>
+                <div class="weather-temp" id="w-temp">取得中...</div>
+                <div class="weather-desc" id="w-desc"></div>
+            </div>
+        </div>
+        <div class="weather-advice" id="w-advice"></div>
+    </div>
+
+    <!-- 概要 -->
+    <div class="section">
+        <div class="section-title">📋 旅行概要</div>
+        <div class="info-card">
+            <div class="info-row"><span class="info-label">旅行先</span><span class="info-value">沖縄（国内旅行）</span></div>
+            <div class="info-row"><span class="info-label">日程</span><span class="info-value">2026年6月24日〜27日（3泊4日）</span></div>
+            <div class="info-row"><span class="info-label">人数</span><span class="info-value">15名</span></div>
+            <div class="info-row"><span class="info-label">宿泊先</span><span class="info-value">レク-沖縄北谷スパ＆リゾート</span></div>
+            <div class="info-row"><span class="info-label">交通手段</span><span class="info-value">飛行機・送迎バス・レンタカー</span></div>
+        </div>
+    </div>
+
+    <!-- Schedule -->
+    <div class="section">
+        <div class="section-title">🗓 スケジュール</div>
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="showTab(0)"><span class="dn">Day1</span>6/24(水)</button>
+            <button class="tab-btn" onclick="showTab(1)"><span class="dn">Day2</span>6/25(木)</button>
+            <button class="tab-btn" onclick="showTab(2)"><span class="dn">Day3</span>6/26(金)</button>
+            <button class="tab-btn" onclick="showTab(3)"><span class="dn">Day4</span>6/27(土)</button>
+        </div>
+
+        <!-- Day1 -->
+        <div class="tab-content active" id="tab-0">
+            <div class="timeline">
+                <div class="tl-item"><div class="tl-card">
+                    <div class="tl-time">11:30</div>
+                    <div class="tl-title">✈️ 那覇空港 到着</div>
+                    <div class="tl-desc">那覇空港にて集合</div>
+                    <a href="https://maps.google.com/?q=那覇空港" target="_blank" class="map-btn">📍 地図を開く</a>
+                </div></div>
+                <div class="tl-item"><div class="tl-card">
+                    <div class="tl-time">11:45</div>
+                    <div class="tl-title">🍽 昼食</div>
+                    <div class="tl-desc">サムズ セーラーイン 国際通り店</div>
+                    <a href="https://maps.google.com/?q=サムズセーラーイン+国際通り店+那覇" target="_blank" class="map-btn">📍 地図を開く</a>
+                </div></div>
+                <div class="tl-item"><div class="tl-card">
+                    <div class="tl-time">13:00</div>
+                    <div class="tl-title">🚌 ホテルへ出発</div>
+                    <div class="tl-desc">送迎バスで移動</div>
+                </div></div>
+                <div class="tl-item"><div class="tl-card">
+                    <div class="tl-time">13:45</div>
+                    <div class="tl-title">🛣 道の駅かでな（休憩）</div>
+                    <div class="tl-desc">嘉手納基地を一望できる展望台あり</div>
+                    <a href="https://maps.google.com/?q=道の駅かでな" target="_blank" class="map-btn">📍 地図を開く</a>
+                </div></div>
+                <div class="tl-item"><div class="tl-card">
+                    <div class="tl-time">14:15</div>
+                    <div class="tl-title">🏨 ホテル到着・チェックイン</div>
+                    <div class="tl-desc">レク-沖縄北谷スパ＆リゾート</div>
+                    <a href="https://maps.google.com/?q=レク沖縄北谷スパリゾート" target="_blank" class="map-btn">📍 地図を開く</a>
+                </div></div>
+                <div class="tl-item"><div class="tl-card">
+                    <div class="tl-time">15:00</div>
+                    <div class="tl-title">💪 トレーニング施設で自由運動</div>
+                    <div class="tl-desc">ホテル内施設を利用</div>
+                </div></div>
+                <div class="tl-item"><div class="tl-card">
+                    <div class="tl-time">18:00</div>
+                    <div class="tl-title">🍖 夕食</div>
+                    <div class="tl-desc">でーじなとんとん　4,000円/人コース</div>
+                    <a href="https://maps.google.com/?q=でーじなとんとん+沖縄" target="_blank" class="map-btn">📍 地図を開く</a>
+                </div></div>
+            </div>
+        </div>
+
+        <!-- Day2 -->
+        <div class="tab-content" id="tab-1">
+            <div class="timeline">
+                <div class="tl-item"><div class="tl-card">
+                    <div class="tl-time">午前</div>
+                    <div class="tl-title">🤿 マリンスポーツ</div>
+                    <div class="tl-desc">各自でアクティビティを選択<br>シュノーケル・ダイビング・SUP・カヌーなど</div>
+                </div></div>
+                <div class="tl-item"><div class="tl-card">
+                    <div class="tl-time">昼</div>
+                    <div class="tl-title">🍜 ランチ</div>
+                    <div class="tl-desc"><span class="undecided">📝 場所は後日追記予定</span></div>
+                </div></div>
+                <div class="tl-item"><div class="tl-card">
+                    <div class="tl-time">夕方</div>
+                    <div class="tl-title">🌅 サンセットBBQ</div>
+                    <div class="tl-desc">焼肉＆BBQ海岸テラス　3,000円/人<br>沖縄の夕日を眺めながら乾杯！🍺</div>
+                    <a href="https://maps.google.com/?q=BBQ+海岸テラス+北谷+沖縄" target="_blank" class="map-btn">📍 地図を開く</a>
+                </div></div>
+            </div>
+        </div>
+
+        <!-- Day3 -->
+        <div class="tab-content" id="tab-2">
+            <div class="timeline">
+                <div class="tl-item"><div class="tl-card">
+                    <div class="tl-time">午前</div>
+                    <div class="tl-title">🐠 美ら海水族館</div>
+                    <div class="tl-desc">入館料 2,180円/人<br>ジンベエザメを間近で！国内最大級の水族館</div>
+                    <a href="https://maps.google.com/?q=沖縄美ら海水族館" target="_blank" class="map-btn">📍 地図を開く</a>
+                </div></div>
+                <div class="tl-item"><div class="tl-card">
+                    <div class="tl-time">昼</div>
+                    <div class="tl-title">🍽 ランチ</div>
+                    <div class="tl-desc"><span class="undecided">📝 場所は後日追記予定</span></div>
+                </div></div>
+                <div class="tl-item"><div class="tl-card">
+                    <div class="tl-time">午後</div>
+                    <div class="tl-title">🗺 観光</div>
+                    <div class="tl-desc"><span class="undecided">📝 場所は後日追記予定</span><br>ホテル方面に戻りながら立ち寄り</div>
+                </div></div>
+                <div class="tl-item"><div class="tl-card">
+                    <div class="tl-time">18:00</div>
+                    <div class="tl-title">🍽 夕食</div>
+                    <div class="tl-desc">ホテル内レストラン</div>
+                    <a href="https://maps.google.com/?q=レク沖縄北谷スパリゾート" target="_blank" class="map-btn">📍 地図を開く</a>
+                </div></div>
+            </div>
+        </div>
+
+        <!-- Day4 -->
+        <div class="tab-content" id="tab-3">
+            <div class="timeline">
+                <div class="tl-item"><div class="tl-card">
+                    <div class="tl-time">11:30</div>
+                    <div class="tl-title">🏨 ホテル出発</div>
+                    <div class="tl-desc">レンタカー返却含む　忘れ物チェック！</div>
+                </div></div>
+                <div class="tl-item"><div class="tl-card">
+                    <div class="tl-time">12:10</div>
+                    <div class="tl-title">🛍 国際通りでランチ＆散策</div>
+                    <div class="tl-desc">お土産タイム！ちんすこう・紅芋タルト・泡盛など</div>
+                    <a href="https://maps.google.com/?q=国際通り+那覇" target="_blank" class="map-btn">📍 地図を開く</a>
+                </div></div>
+                <div class="tl-item"><div class="tl-card">
+                    <div class="tl-time">16:00</div>
+                    <div class="tl-title">🚗 空港へ出発</div>
+                    <div class="tl-desc">那覇空港に向けて出発</div>
+                </div></div>
+                <div class="tl-item"><div class="tl-card">
+                    <div class="tl-time">16:20</div>
+                    <div class="tl-title">✈️ 那覇空港 到着・解散</div>
+                    <div class="tl-desc">お疲れ様でした！また来年も沖縄へ 🌺</div>
+                    <a href="https://maps.google.com/?q=那覇空港" target="_blank" class="map-btn">📍 地図を開く</a>
+                </div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cost -->
+    <div class="section">
+        <div class="section-title">💴 費用メモ（確定分・1人あたり）</div>
+        <div class="cost-card">
+            <div class="cost-row">
+                <span>🍖 1日目 夕食（でーじなとんとん）</span>
+                <span class="cost-amt">¥4,000</span>
+            </div>
+            <div class="cost-row">
+                <span>🚗 レンタカー代（2〜3日目）</span>
+                <span class="cost-amt">¥5,000</span>
+            </div>
+            <div class="cost-row">
+                <span>🐠 美ら海水族館 入館料</span>
+                <span class="cost-amt">¥2,180</span>
+            </div>
+            <div class="cost-row">
+                <span>🌅 BBQ（焼肉＆BBQ海岸テラス）</span>
+                <span class="cost-amt">¥3,000</span>
+            </div>
+            <div class="cost-row cost-total">
+                <span>現時点合計</span>
+                <span class="cost-amt">¥14,180</span>
+            </div>
+        </div>
+        <div class="cost-note">※ランチ代・その他諸費用は別途。確定次第追記します。</div>
+    </div>
+
+    <!-- Checklist -->
+    <div class="section">
+        <div class="section-title">🎒 持ち物チェックリスト</div>
+        <div class="cl-section">
+            <div id="cl-container"></div>
+            <button class="clear-btn" onclick="clearAll()">チェックをすべてリセット</button>
+        </div>
+    </div>
+
+</div>
+
+<div class="footer">
+    <p>🌺 楽しい沖縄旅行を！ 沖縄の旅 2026</p>
+    <p style="margin-top:4px">「📝 後日追記予定」の項目は決まり次第更新します</p>
+</div>
+
+<script>
+// ===== Tab =====
+function showTab(i) {
+    document.querySelectorAll('.tab-content').forEach((el, j) => el.classList.toggle('active', i === j));
+    document.querySelectorAll('.tab-btn').forEach((el, j) => el.classList.toggle('active', i === j));
+}
+
+// ===== Weather =====
+const WMO = {
+    0:  { l:'快晴',           i:'☀️' },
+    1:  { l:'晴れ',           i:'🌤' },
+    2:  { l:'一部曇り',       i:'⛅' },
+    3:  { l:'曇り',           i:'☁️' },
+    45: { l:'霧',             i:'🌫' },
+    48: { l:'霧',             i:'🌫' },
+    51: { l:'霧雨',           i:'🌦' },
+    53: { l:'霧雨',           i:'🌦' },
+    55: { l:'霧雨',           i:'🌦' },
+    61: { l:'雨',             i:'🌧' },
+    63: { l:'雨',             i:'🌧' },
+    65: { l:'大雨',           i:'🌧' },
+    80: { l:'にわか雨',       i:'🌦' },
+    81: { l:'にわか雨',       i:'🌦' },
+    82: { l:'激しいにわか雨', i:'⛈' },
+    95: { l:'雷雨',           i:'⛈' },
+    96: { l:'雷雨',           i:'⛈' },
+    99: { l:'激しい雷雨',     i:'⛈' },
+};
+
+function weatherAdvice(temp, code) {
+    if (code >= 61) return '☂️ 雨の可能性があります。折りたたみ傘・カッパを持参してください。';
+    if (temp >= 32) return '🥵 猛暑！帽子・日焼け止め必須。こまめな水分補給と熱中症対策を。';
+    if (temp >= 28) return '☀️ 沖縄らしい真夏の陽気！日焼け止め・帽子でしっかり日よけを。';
+    if (temp >= 24) return '🌤 過ごしやすい気候。紫外線は強いので日焼け止めは忘れずに。';
+    return '🌬 少し肌寒いかも。薄手の羽織りを一枚持っていると安心です。';
+}
+
+(async () => {
+    try {
+        const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=26.2124&longitude=127.6809&current=temperature_2m,weathercode,windspeed_10m&timezone=Asia%2FTokyo');
+        if (!r.ok) throw new Error();
+        const d = await r.json();
+        const temp = Math.round(d.current.temperature_2m);
+        const code = d.current.weathercode;
+        const wind = Math.round(d.current.windspeed_10m);
+        const w = WMO[code] || { l: '不明', i: '🌡️' };
+        document.getElementById('w-icon').textContent = w.i;
+        document.getElementById('w-temp').textContent = `${temp}°C　${w.l}`;
+        document.getElementById('w-desc').textContent = `💨 風速 ${wind} km/h`;
+        document.getElementById('w-advice').textContent = weatherAdvice(temp, code);
+    } catch {
+        document.getElementById('w-icon').textContent = '🌺';
+        document.getElementById('w-temp').textContent = '那覇市の天気';
+        document.getElementById('w-desc').textContent = '取得できませんでした';
+        document.getElementById('w-advice').textContent = '📱 天気アプリで「那覇」を検索してご確認ください';
+    }
+})();
+
+// ===== Checklist =====
+const ITEMS = [
+    { id:'c01', g:'必須アイテム',           label:'水着' },
+    { id:'c02', g:'必須アイテム',           label:'ラッシュガード' },
+    { id:'c03', g:'必須アイテム',           label:'サンダル' },
+    { id:'c04', g:'必須アイテム',           label:'日焼け止め（SPF50+ 推奨）' },
+    { id:'c05', g:'必須アイテム',           label:'虫よけスプレー' },
+    { id:'c06', g:'必須アイテム',           label:'常備薬・酔い止め' },
+    { id:'c07', g:'必須アイテム',           label:'保険証・身分証' },
+    { id:'c08', g:'必須アイテム',           label:'充電器・モバイルバッテリー' },
+    { id:'c09', g:'必須アイテム',           label:'現金（多めに）' },
+    { id:'c10', g:'あると便利なアイテム', label:'帽子・キャップ' },
+    { id:'c11', g:'あると便利なアイテム', label:'サングラス' },
+    { id:'c12', g:'あると便利なアイテム', label:'防水ポーチ（スマホ・財布保護用）' },
+    { id:'c13', g:'あると便利なアイテム', label:'タオル 2〜3枚' },
+    { id:'c14', g:'あると便利なアイテム', label:'着替え多め（6月の沖縄は汗をかく）' },
+    { id:'c15', g:'あると便利なアイテム', label:'ウォーターシューズ（磯・ビーチ用）' },
+    { id:'c16', g:'あると便利なアイテム', label:'折りたたみ傘・カッパ（梅雨明け直後対策）' },
+    { id:'c17', g:'あると便利なアイテム', label:'エコバッグ・ビーチバッグ' },
+    { id:'c18', g:'あると便利なアイテム', label:'整腸剤（食べすぎ・水あたり対策）' },
+    { id:'c19', g:'あると便利なアイテム', label:'シュノーケルセット（現地レンタルも可）' },
+    { id:'c20', g:'あると便利なアイテム', label:'ビニール袋（濡れた水着・砂などの収納）' },
+];
+
+function buildChecklist() {
+    const saved = JSON.parse(localStorage.getItem('okinawa2026_cl') || '{}');
+    const cont = document.getElementById('cl-container');
+    let curGroup = '';
+    ITEMS.forEach(item => {
+        if (item.g !== curGroup) {
+            curGroup = item.g;
+            const h = document.createElement('div');
+            h.className = 'cl-group-title';
+            h.textContent = curGroup === '必須アイテム' ? '🏖 必須アイテム' : '✨ あると便利なアイテム';
+            cont.appendChild(h);
+        }
+        const div = document.createElement('div');
+        div.className = 'cl-item' + (saved[item.id] ? ' checked' : '');
+        div.innerHTML = `<input type="checkbox" id="${item.id}" ${saved[item.id] ? 'checked' : ''}><label for="${item.id}">${item.label}</label>`;
+        div.querySelector('input').addEventListener('change', function() {
+            const s = JSON.parse(localStorage.getItem('okinawa2026_cl') || '{}');
+            s[item.id] = this.checked;
+            localStorage.setItem('okinawa2026_cl', JSON.stringify(s));
+            div.classList.toggle('checked', this.checked);
+        });
+        cont.appendChild(div);
+    });
+}
+
+function clearAll() {
+    if (!confirm('チェックをすべてリセットしますか？')) return;
+    localStorage.removeItem('okinawa2026_cl');
+    document.querySelectorAll('.cl-item').forEach(el => el.classList.remove('checked'));
+    document.querySelectorAll('.cl-item input').forEach(el => el.checked = false);
+}
+
+buildChecklist();
+</script>
+</body>
+</html>
