@@ -222,6 +222,60 @@
             font-size: 0.8rem; cursor: pointer; font-family: inherit;
         }
 
+        /* Nago Lunch Accordion */
+        .nago-lunch { margin-top: 10px; }
+        .nago-lunch details {
+            border: 1px solid var(--ocean-pale);
+            border-radius: 8px;
+            margin-bottom: 6px;
+            overflow: hidden;
+        }
+        .nago-lunch summary {
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            background: var(--ocean-pale);
+            color: var(--ocean-deep);
+            display: flex;
+            align-items: center;
+            list-style: none;
+            user-select: none;
+        }
+        .nago-lunch summary::-webkit-details-marker { display: none; }
+        .nago-lunch summary::after {
+            content: '▼';
+            margin-left: auto;
+            font-size: 0.68rem;
+            transition: transform 0.2s;
+        }
+        .nago-lunch details[open] summary::after { transform: rotate(180deg); }
+        .nago-shop {
+            padding: 9px 12px;
+            border-bottom: 1px solid var(--ocean-pale);
+            font-size: 0.82rem;
+        }
+        .nago-shop:last-child { border-bottom: none; }
+        .nago-shop-name { font-weight: 600; margin-bottom: 2px; }
+        .nago-shop-hours { color: var(--text-light); font-size: 0.76rem; margin-bottom: 4px; }
+        .nago-shop-note {
+            display: inline-block;
+            background: #FFF3CD;
+            color: #856404;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 0.73rem;
+            margin-bottom: 4px;
+        }
+        .nago-genre-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--ocean);
+            padding: 8px 12px 4px;
+            background: var(--bg);
+            letter-spacing: 0.03em;
+        }
+
         /* Footer */
         .footer {
             text-align: center; padding: 24px 16px;
@@ -338,8 +392,55 @@
                 </div></div>
                 <div class="tl-item"><div class="tl-card">
                     <div class="tl-time">13:00 頃</div>
-                    <div class="tl-title">🍽 ランチ</div>
-                    <div class="tl-desc">水族館から車で約30分のエリアで検討中<br><span class="undecided">📝 場所は後日追記予定</span></div>
+                    <div class="tl-title">🍽 ランチ（各自・ハナサキマルシェ）</div>
+                    <div class="tl-desc">美ら海水族館から車で約5分！各自好きなお店へ🍴<br>駐車場は無料・約420台完備なので車はそのままでOK<br>集合は 14:30 駐車場</div>
+                    <a href="https://maps.google.com/?q=オキナワ+ハナサキマルシェ+本部町" target="_blank" class="map-btn">📍 地図を開く</a>
+                    <div class="nago-lunch">
+                        <details>
+                            <summary>🏪 お店一覧を見る</summary>
+                            <div class="nago-genre-title">🍙 沖縄ソウルフード</div>
+                            <div class="nago-shop">
+                                <div class="nago-shop-name">ポーたま 本部町店</div>
+                                <div class="nago-shop-hours">ポークたまごおにぎり・沖縄限定メニューあり</div>
+                                <div class="nago-shop-hours">🕐 7:00〜20:00</div>
+                                <a href="https://maps.google.com/?q=ポーたま+本部町店+ハナサキマルシェ" target="_blank" class="map-btn">📍 地図を開く</a>
+                            </div>
+                            <div class="nago-genre-title">🐟 海鮮・沖縄料理</div>
+                            <div class="nago-shop">
+                                <div class="nago-shop-name">海人料理 海邦丸</div>
+                                <div class="nago-shop-hours">地魚海鮮・沖縄料理</div>
+                                <div class="nago-shop-hours">🕐 11:00〜16:00</div>
+                                <a href="https://maps.google.com/?q=海人料理+海邦丸+ハナサキマルシェ+本部町" target="_blank" class="map-btn">📍 地図を開く</a>
+                            </div>
+                            <div class="nago-genre-title">🌍 多国籍フード</div>
+                            <div class="nago-shop">
+                                <div class="nago-shop-name">World Kitchen</div>
+                                <div class="nago-shop-hours">世界各国料理</div>
+                                <a href="https://maps.google.com/?q=World+Kitchen+ハナサキマルシェ+本部町" target="_blank" class="map-btn">📍 地図を開く</a>
+                            </div>
+                            <div class="nago-genre-title">🍦 スイーツ・ドリンク</div>
+                            <div class="nago-shop">
+                                <div class="nago-shop-name">やんばるジェラート</div>
+                                <div class="nago-shop-hours">沖縄素材のジェラート</div>
+                                <a href="https://maps.google.com/?q=やんばるジェラート+ハナサキマルシェ" target="_blank" class="map-btn">📍 地図を開く</a>
+                            </div>
+                            <div class="nago-shop">
+                                <div class="nago-shop-name">ブルーシール</div>
+                                <div class="nago-shop-hours">沖縄アイス・本部町限定フレーバーあり</div>
+                                <a href="https://maps.google.com/?q=ブルーシール+ハナサキマルシェ+本部町" target="_blank" class="map-btn">📍 地図を開く</a>
+                            </div>
+                            <div class="nago-shop">
+                                <div class="nago-shop-name">ゴンチャ</div>
+                                <div class="nago-shop-hours">台湾ティー</div>
+                                <a href="https://maps.google.com/?q=ゴンチャ+ハナサキマルシェ+本部町" target="_blank" class="map-btn">📍 地図を開く</a>
+                            </div>
+                            <div class="nago-shop">
+                                <div class="nago-shop-name">スターバックス</div>
+                                <div class="nago-shop-hours">沖縄北部エリア初出店</div>
+                                <a href="https://maps.google.com/?q=スターバックス+ハナサキマルシェ+本部町" target="_blank" class="map-btn">📍 地図を開く</a>
+                            </div>
+                        </details>
+                    </div>
                 </div></div>
                 <div class="tl-item"><div class="tl-card">
                     <div class="tl-time">午後</div>
